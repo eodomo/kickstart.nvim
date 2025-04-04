@@ -13,7 +13,17 @@ return {
     explorer = { enabled = false },
     indent = { enabled = false },
     input = { enabled = false },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      win = {
+        input = {
+          keys = {
+            ['<S-Tab>'] = { 'list_up', mode = { 'i', 'n' } },
+            ['<Tab>'] = { 'list_down', mode = { 'i', 'n' } },
+          },
+        },
+      },
+    },
     notifier = { enabled = false },
     quickfile = { enabled = false },
     scope = { enabled = false },
