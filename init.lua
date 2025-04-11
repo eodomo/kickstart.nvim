@@ -81,7 +81,7 @@ vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = 'Toggle [U]ndo
 vim.keymap.set('n', '<leader><Tab>', ':bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set('n', '<leader><S-Tab>', ':bprev<CR>', { desc = 'Previous buffer' })
 vim.opt.winborder = 'rounded'
-vim.keymap.set('n', '<leader>rl', ':!love .<CR>', { desc = '[R]un [L]OVE' })
+vim.keymap.set('n', '<leader>rl', ':!love .<CR>', { desc = '[R]un [L]ÖVE' })
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
