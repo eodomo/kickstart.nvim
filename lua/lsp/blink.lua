@@ -10,7 +10,7 @@ return { -- blink autocompletion
       documentation = { auto_show = true },
       list = {
         selection = {
-          preselect = false,
+          preselect = true,
         },
       },
     },
