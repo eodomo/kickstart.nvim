@@ -33,6 +33,7 @@ return {
   },
   keys = {
     -- Picker
+    -- Search
     {
       '<leader>sf',
       function()
@@ -74,6 +75,14 @@ return {
         Snacks.picker.resume()
       end,
       desc = '[S]earch [R]esume',
+    },
+    -- Search
+    {
+      'gd',
+      function()
+        Snacks.picker.lsp_definitions()
+      end,
+      desc = '[G]oto [D]efinition',
     },
   },
 }
