@@ -84,5 +84,12 @@ return {
       end,
       desc = '[G]oto [D]efinition',
     },
+    {
+      'gD',
+      function()
+        Snacks.picker.lsp_declarations()
+      end,
+      desc = '[G]oto [D]eclaration',
+    },
   },
 }
