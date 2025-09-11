@@ -83,6 +83,21 @@ vim.keymap.set('n', '<leader><S-Tab>', ':bprev<CR>', { desc = 'Previous buffer' 
 vim.opt.winborder = 'rounded'
 vim.keymap.set('n', '<leader>ll', ':!love .<CR>', { desc = '[R]un [L]ÖVE' })
 
+-- Toggle the word under cursor between 'true' and 'false'
+local function toggle_true_false()
+  local w = vim.fn.expand '<cword>'
+  if w == 'true' then
+    vim.cmd [[normal! ciwfalse]]
+  elseif w == 'false' then
+    vim.cmd [[normal! ciwtrue]]
+  else
+    vim.notify("Cursor not on 'true' or 'false'", vim.log.levels.INFO, { title = 'Toggle Boolean' })
+  end
+end
+
+-- Map <leader>~ in normal mode
+vim.keymap.set('n', '<leader>~', toggle_true_false, { desc = 'Toggle true/false under cursor' })
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
