@@ -4,9 +4,9 @@ return {
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
-    'saghen/blink.cmp',
+    'saghen/blink.cmp', -- Auto-complete engine
     { 'folke/lazydev.nvim', opts = {} },
-    { 'j-hui/fidget.nvim', opts = {} },
+    { 'j-hui/fidget.nvim', opts = {} }, -- Loading notifications in the bottom-right corner
   },
   config = function()
     -- Global LSP attach autocmd (unchanged)
@@ -29,7 +29,7 @@ return {
 
     -- Setup Mason and ensure tool installation (unchanged)
     require('mason').setup()
-    local servers = { 'clangd', 'rust_analyzer', 'powershell_es', 'lua_ls' , 'gopls'} -- Add others if desired
+    local servers = { 'clangd', 'rust_analyzer', 'powershell_es', 'lua_ls', 'gopls' } -- Add others if desired
     local ensure_installed = vim.deepcopy(servers)
     vim.list_extend(ensure_installed, { 'stylua' })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -56,14 +56,25 @@ return {
       },
     })
 
-    -- Platform-specific server config example
-    local godot_config = (vim.fn.has 'win32' ~= 0) and { cmd = { 'ncat', '127.0.0.1', '6005' }, name = 'godot' }
-      or { cmd = vim.lsp.rpc.connect('127.0.0.1', 6005), name = 'godot' }
-    vim.lsp.config('gdscript', godot_config)
+    local godot_config = function()
+      if vim.fn.has 'win32' then
+        return {
+          cmd = { 'ncat', '127.0.0.1', '6005' },
+          name = 'godot',
+        }
+      else
+        return {
+          cmd = vim.lsp.rpc.connect('127.0.0.1', 6005),
+          name = 'godot',
+        }
+      end
+    end
+    vim.lsp.config('gdscript', godot_config())
 
     -- Enable all configured servers
     vim.lsp.enable(servers)
-    vim.lsp.enable 'gdscript' -- in addition, if Godot LSP is wanted
+    -- TODO: Fix godot LSP integration
+    -- vim.lsp.enable 'gdscript'
 
     -- Optionally: extra LSP plugins (unmodified usage, if applicable)
     -- lazydev, fidget, blink.cmp already declared as dependencies above
