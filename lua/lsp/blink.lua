@@ -1,8 +1,8 @@
 return { -- blink autocompletion
   'saghen/blink.cmp',
   dependencies = { 'rafamadriz/friendly-snippets' },
-  -- version = '*',
-  build = 'cargo build --release',
+  version = '1.*',
+  -- build = 'cargo build --release',
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
@@ -34,6 +34,7 @@ return { -- blink autocompletion
         },
       },
     },
+    -- fuzzy = { implementation = 'prefer_rust' },
   },
   opts_extend = { 'sources.default' },
 }
