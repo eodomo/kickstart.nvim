@@ -38,7 +38,31 @@ return {
     vim.lsp.config('clangd', {})
     vim.lsp.config('rust_analyzer', {})
     vim.lsp.config('gopls', {})
+    local install_dir = vim.fn.stdpath 'data' .. '/mason/packages/powershell-editor-services'
     vim.lsp.config('powershell_es', {
+      cmd = {
+        'pwsh',
+        '-NoLogo',
+        '-NoProfile',
+        '-Command',
+        install_dir .. '/PowerShellEditorServices/Start-EditorServices.ps1',
+        '-HostName',
+        'nvim',
+        '-HostProfileId',
+        'nvim',
+        '-HostVersion',
+        '1.0.0',
+        '-BundledModulesPath',
+        install_dir .. '/PowerShellEditorServices',
+        '-LogPath',
+        vim.fn.stdpath 'cache' .. '/powershell_es.log',
+        '-SessionDetailsPath',
+        vim.fn.stdpath 'cache' .. '/powershell_es.session.json',
+        '-FeatureFlags',
+        '@()',
+        '-LogLevel',
+        'Normal',
+      },
       init_options = { enableProfileLoading = false },
       filetypes = { 'ps1' },
       on_attach = function(client, bufnr)
