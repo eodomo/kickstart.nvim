@@ -73,7 +73,7 @@ vim.opt.scrolloff = 10
 
 -- [[ Eric's Custom Keymaps]]
 
-vim.keymap.set('n', '<leader><leader>', '<cmd>Neotree toggle<CR>')
+-- vim.keymap.set('n', '<leader><leader>', '<cmd>Neotree toggle<CR>')
 -- vim.keymap.set('n', '<leader><leader>g', '<cmd>Neotree float git_status<CR>')
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = 'Toggle [U]ndoTree' })
 -- vim.keymap.set('n', '<leader>;', 'A;<esc>', { desc = 'Append [;] to line' })
