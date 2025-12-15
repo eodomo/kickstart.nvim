@@ -82,6 +82,7 @@ vim.keymap.set('n', '<leader><Tab>', ':bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set('n', '<leader><S-Tab>', ':bprev<CR>', { desc = 'Previous buffer' })
 vim.opt.winborder = 'rounded'
 vim.keymap.set('n', '<leader>ll', ':!love .<CR>', { desc = '[R]un [L]ÖVE' })
+vim.api.nvim_create_user_command('W', 'w', {})
 
 -- Toggle the word under cursor between 'true' and 'false'
 local function toggle_true_false()
