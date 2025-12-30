@@ -29,7 +29,7 @@ return {
 
     -- Setup Mason and ensure tool installation (unchanged)
     require('mason').setup()
-    local servers = { 'clangd', 'rust_analyzer', 'powershell_es', 'lua_ls', 'gopls' } -- Add others if desired
+    local servers = { 'clangd', 'rust_analyzer', 'powershell_es', 'lua_ls', 'gopls' ,'pyright'} -- Add others if desired
     local ensure_installed = vim.deepcopy(servers)
     vim.list_extend(ensure_installed, { 'stylua' })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -38,6 +38,7 @@ return {
     vim.lsp.config('clangd', {})
     vim.lsp.config('rust_analyzer', {})
     vim.lsp.config('gopls', {})
+    vim.lsp.config('pyright', {})
     local install_dir = vim.fn.stdpath 'data' .. '/mason/packages/powershell-editor-services'
     vim.lsp.config('powershell_es', {
       cmd = {
