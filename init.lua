@@ -71,6 +71,9 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Create a highlight bar at column 80... don't go to far!
+vim.opt.colorcolumn = '80'
+
 -- [[ Eric's Custom Keymaps]]
 
 -- vim.keymap.set('n', '<leader><leader>', '<cmd>Neotree toggle<CR>')
