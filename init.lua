@@ -310,15 +310,21 @@ require('lazy').setup({
     },
   },
 
-  { -- Install cutpuccin colorscheme
+  { -- Install catppuccin colorscheme
     'catppuccin/nvim',
-    name = 'cutppuccin',
+    name = 'catppuccin',
     priority = 1000,
   },
 
-  { -- Install cutpuccin colorscheme
+  { -- Install gruvbox colorscheme
     'ellisonleao/gruvbox.nvim',
     name = 'gruvbox',
+    priority = 1000,
+  },
+
+  { -- Install gruvbox-material colorscheme
+    'sainnhe/gruvbox-material',
+    name = 'gruvbox-material',
     priority = 1000,
   },
 
@@ -333,7 +339,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'gruvbox'
+      vim.cmd.colorscheme 'catppuccin'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
