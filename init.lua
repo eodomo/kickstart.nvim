@@ -71,9 +71,12 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Create a highlight bar at column 80... don't go to far!
+vim.opt.colorcolumn = '80'
+
 -- [[ Eric's Custom Keymaps]]
 
-vim.keymap.set('n', '<leader><leader>', '<cmd>Neotree toggle<CR>')
+-- vim.keymap.set('n', '<leader><leader>', '<cmd>Neotree toggle<CR>')
 -- vim.keymap.set('n', '<leader><leader>g', '<cmd>Neotree float git_status<CR>')
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = 'Toggle [U]ndoTree' })
 -- vim.keymap.set('n', '<leader>;', 'A;<esc>', { desc = 'Append [;] to line' })
@@ -82,6 +85,7 @@ vim.keymap.set('n', '<leader><Tab>', ':bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set('n', '<leader><S-Tab>', ':bprev<CR>', { desc = 'Previous buffer' })
 vim.opt.winborder = 'rounded'
 vim.keymap.set('n', '<leader>ll', ':!love .<CR>', { desc = '[R]un [L]ÖVE' })
+vim.api.nvim_create_user_command('W', 'w', {})
 
 -- Toggle the word under cursor between 'true' and 'false'
 local function toggle_true_false()
@@ -306,9 +310,21 @@ require('lazy').setup({
     },
   },
 
-  { -- Install cutpuccin colorscheme
+  { -- Install catppuccin colorscheme
     'catppuccin/nvim',
-    name = 'cutppuccin',
+    name = 'catppuccin',
+    priority = 1000,
+  },
+
+  { -- Install gruvbox colorscheme
+    'ellisonleao/gruvbox.nvim',
+    name = 'gruvbox',
+    priority = 1000,
+  },
+
+  { -- Install gruvbox-material colorscheme
+    'sainnhe/gruvbox-material',
+    name = 'gruvbox-material',
     priority = 1000,
   },
 
@@ -323,7 +339,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'catppuccin-mocha'
+      vim.cmd.colorscheme 'catppuccin'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'

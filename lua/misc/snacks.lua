@@ -10,11 +10,16 @@ return {
     bigfile = { enabled = false },
     git = { enabled = false },
     dashboard = { enabled = false },
-    explorer = { enabled = false },
+    explorer = {
+      enabled = true,
+    },
     indent = { enabled = false },
     input = { enabled = false },
     picker = {
       enabled = true,
+      sources = {
+        explorer = {},
+      },
       win = {
         input = {
           keys = {
@@ -25,13 +30,21 @@ return {
       },
     },
     notifier = { enabled = false },
-    quickfile = { enabled = false },
+    quickfile = { enabled = true },
     scope = { enabled = false },
     scroll = { enabled = false },
     statuscolumn = { enabled = false },
     words = { enabled = false },
   },
   keys = {
+    -- Explorer
+    {
+      '<leader><leader>',
+      function()
+        Snacks.explorer()
+      end,
+      desc = 'File Explorer',
+    },
     -- Picker
     -- Search
     {
