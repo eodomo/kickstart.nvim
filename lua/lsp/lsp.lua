@@ -9,6 +9,9 @@ return {
     { 'j-hui/fidget.nvim', opts = {} }, -- Loading notifications in the bottom-right corner
   },
   config = function()
+    local function has_exe(cmd)
+      return vim.fn.executable(cmd) == 1
+    end
     -- Global LSP attach autocmd (unchanged)
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
@@ -29,7 +32,11 @@ return {
 
     -- Setup Mason and ensure tool installation (unchanged)
     require('mason').setup()
-    local servers = { 'clangd', 'rust_analyzer', 'powershell_es', 'lua_ls', 'gopls', 'pyright', 'svelte-language-server' } -- Add others if desired
+    local servers = { 'clangd', 'rust_analyzer', 'powershell_es', 'lua_ls', 'gopls' }
+    if has_exe 'node' then
+      table.insert(servers, 'pyright')
+      table.insert(servers, 'svelte-language-server')
+    end
     local ensure_installed = vim.deepcopy(servers)
     vim.list_extend(ensure_installed, { 'stylua' })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -38,8 +45,13 @@ return {
     vim.lsp.config('clangd', {})
     vim.lsp.config('rust_analyzer', {})
     vim.lsp.config('gopls', {})
-    vim.lsp.config('pyright', {})
-    vim.lsp.config('svelte-language-server', {})
+    if vim.tbl_contains(servers, 'pyright') then
+      vim.lsp.config('pyright', {})
+    end
+
+    if vim.tbl_contains(servers, 'svelte-language-server') then
+      vim.lsp.config('svelte-language-server', {})
+    end
     local install_dir = vim.fn.stdpath 'data' .. '/mason/packages/powershell-editor-services'
     vim.lsp.config('powershell_es', {
       cmd = {
@@ -101,8 +113,5 @@ return {
     vim.lsp.enable(servers)
     -- TODO: Fix godot LSP integration
     -- vim.lsp.enable 'gdscript'
-
-    -- Optionally: extra LSP plugins (unmodified usage, if applicable)
-    -- lazydev, fidget, blink.cmp already declared as dependencies above
   end,
 }
