@@ -36,6 +36,7 @@ return {
     if has_exe 'node' then
       table.insert(servers, 'pyright')
       table.insert(servers, 'svelte-language-server')
+      table.insert(servers, 'prettier')
     end
     local ensure_installed = vim.deepcopy(servers)
     vim.list_extend(ensure_installed, { 'stylua' })
