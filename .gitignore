@@ -6,3 +6,28 @@ nvim
 spell/
 lazy-lock.json
 .repro
+
+# Copilot / assistant local artifacts
+.copilot/
+.copilot-cache/
+copilot.*
+copilot-*
+
+# MCP / assistant server state (local)
+.mcp/
+.mcp_servers/
+
+# Local assistant rule files (optional)
+CLAUDE.md
+AGENTS.md
+CONVENTIONS.md
+AIDER_CONVENTIONS.md
+.windsurfrules
+.cursorrules
+.clinerules
+.cursor/
+.cursor/*
+
+# session state (local)
+session-state/
+session_state/
