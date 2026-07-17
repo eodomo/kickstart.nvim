@@ -14,5 +14,8 @@ return {
       },
       panel = { enabled = true },
     })
+
+    -- Toggle panel with <leader>cp
+    vim.keymap.set('n', '<leader>cp', ':Copilot panel toggle<CR>', { desc = 'Copilot: toggle panel' })
   end,
 }
