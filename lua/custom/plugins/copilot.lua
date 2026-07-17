@@ -3,7 +3,12 @@
 
 return {
   'zbirenbaum/copilot.lua',
+  -- Load on InsertEnter for suggestions, but also expose the :Copilot command and a keymap so users can open the panel anytime
   event = 'InsertEnter',
+  cmd = 'Copilot',
+  keys = {
+    { '<leader>cp', ':Copilot panel toggle<CR>', desc = 'Copilot: toggle panel' },
+  },
   config = function()
     -- Basic setup: enable suggestions and map accept to <C-J>
     require('copilot').setup({
@@ -14,8 +19,5 @@ return {
       },
       panel = { enabled = true },
     })
-
-    -- Toggle panel with <leader>cp
-    vim.keymap.set('n', '<leader>cp', ':Copilot panel toggle<CR>', { desc = 'Copilot: toggle panel' })
   end,
 }
