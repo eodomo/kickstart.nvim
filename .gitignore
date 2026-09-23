@@ -7,12 +7,6 @@ spell/
 lazy-lock.json
 .repro
 
-# Copilot / assistant local artifacts
-.copilot/
-.copilot-cache/
-copilot.*
-copilot-*
-
 # MCP / assistant server state (local)
 .mcp/
 .mcp_servers/

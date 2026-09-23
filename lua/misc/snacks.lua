@@ -37,14 +37,14 @@ return {
     words = { enabled = false },
   },
   keys = {
-    --[[ Explorer
+    -- Explorer
     {
       '<leader><leader>',
       function()
         Snacks.explorer()
       end,
       desc = 'File Explorer',
-    }, ]]
+    },
     -- Picker
     -- Search
     {
@@ -89,6 +89,14 @@ return {
       end,
       desc = '[S]earch [R]esume',
     },
+    {
+      '<leader>sR',
+      function()
+        Snacks.picker.recent()
+      end,
+      desc = '[S]earch [R]ecent',
+    },
+
     -- Search
     {
       'gd',
