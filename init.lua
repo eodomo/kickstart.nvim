@@ -393,11 +393,16 @@ require('lazy').setup({
     lazy = false,
     build = ':TSUpdate',
     config = function()
-      local parsers = { 'bash', 'c', 'css', 'dockerfile', 'go', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'toml', 'vim', 'vimdoc' }
+      local parsers = { 'bash', 'c', 'css', 'dockerfile', 'go', 'html', 'json', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'toml', 'vim', 'vimdoc' }
       local enabled = {}
       for _, parser in ipairs(parsers) do
         enabled[parser] = true
       end
+      local available = {}
+      for _, parser in ipairs(require('nvim-treesitter').get_available()) do
+        available[parser] = true
+      end
+      local installing = {}
 
       -- Windows curl fails TLS handshakes with GitHub on this machine.
       local msys_curl = 'C:/msys64/usr/bin/curl.exe'
@@ -411,7 +416,7 @@ require('lazy').setup({
       end, 1000)
 
       vim.api.nvim_create_autocmd('FileType', {
-        desc = 'Enable Treesitter highlighting for installed languages',
+        desc = 'Install and enable Treesitter highlighting',
         group = vim.api.nvim_create_augroup('kickstart-treesitter', { clear = true }),
         callback = function(event)
           local filetype = vim.bo[event.buf].filetype
@@ -420,9 +425,38 @@ require('lazy').setup({
             return
           end
 
-          if pcall(vim.treesitter.start, event.buf) and enabled[language] and filetype ~= 'ruby' then
-            vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          local function start(buf)
+            if not vim.api.nvim_buf_is_valid(buf) or not vim.api.nvim_buf_is_loaded(buf) then
+              return false
+            end
+
+            local ok = pcall(vim.treesitter.start, buf)
+            if ok and enabled[language] and vim.bo[buf].filetype ~= 'ruby' then
+              vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            end
+            return ok
           end
+
+          if start(event.buf) or not available[language] or installing[language] then
+            return
+          end
+
+          installing[language] = true
+          require('nvim-treesitter').install({ language }):await(function(err, installed)
+            installing[language] = nil
+            if err or not installed then
+              return
+            end
+
+            vim.schedule(function()
+              for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                local buf_lang = vim.treesitter.language.get_lang(vim.bo[buf].filetype)
+                if buf_lang == language then
+                  start(buf)
+                end
+              end
+            end)
+          end)
         end,
       })
     end,
