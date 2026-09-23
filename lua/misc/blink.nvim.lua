@@ -27,8 +27,6 @@ return {
     { '<leader>e', '<cmd>BlinkTree toggle-focus<cr>', desc = 'Toggle file tree focus' },
     --]]
   },
-  -- all modules handle lazy loading internally
-  lazy = false,
   opts = {
     chartoggle = { enabled = true },
     indent = { enabled = false },

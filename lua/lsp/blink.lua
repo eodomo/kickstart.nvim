@@ -1,5 +1,6 @@
 return { -- blink autocompletion
   'saghen/blink.cmp',
+  event = 'InsertEnter',
   dependencies = { 'rafamadriz/friendly-snippets' },
   version = '1.*',
   -- build = 'cargo build --release',

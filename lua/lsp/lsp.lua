@@ -1,10 +1,10 @@
 return {
   'neovim/nvim-lspconfig',
+  event = 'VeryLazy',
   dependencies = {
     'mason-org/mason.nvim',
     'mason-org/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
-    'saghen/blink.cmp', -- Auto-complete engine
     { 'folke/lazydev.nvim', opts = {} },
     { 'j-hui/fidget.nvim', opts = {} }, -- Loading notifications in the bottom-right corner
   },
@@ -30,17 +30,20 @@ return {
       end,
     })
 
-    -- Setup Mason and ensure tool installation (unchanged)
+    -- Setup Mason and ensure tool installation
     require('mason').setup()
-    local servers = { 'clangd', 'rust_analyzer', 'powershell_es', 'lua_ls', 'gopls' }
+    local servers = { 'clangd', 'rust_analyzer', 'lua_ls', 'gopls' }
     if has_exe 'node' then
       table.insert(servers, 'pyright')
       table.insert(servers, 'svelte-language-server')
       table.insert(servers, 'prettier')
     end
     local ensure_installed = vim.deepcopy(servers)
-    vim.list_extend(ensure_installed, { 'stylua' })
-    require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+    vim.list_extend(ensure_installed, { 'stylua', 'powershell-editor-services' })
+    -- Tool checks can wait until the initial buffer is visible.
+    vim.defer_fn(function()
+      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+    end, 1000)
 
     -- Configure each LSP server using the new API
     vim.lsp.config('clangd', {})
@@ -53,38 +56,6 @@ return {
     if vim.tbl_contains(servers, 'svelte-language-server') then
       vim.lsp.config('svelte-language-server', {})
     end
-    local install_dir = vim.fn.stdpath 'data' .. '/mason/packages/powershell-editor-services'
-    vim.lsp.config('powershell_es', {
-      cmd = {
-        'pwsh',
-        '-NoLogo',
-        '-NoProfile',
-        '-Command',
-        install_dir .. '/PowerShellEditorServices/Start-EditorServices.ps1',
-        '-HostName',
-        'nvim',
-        '-HostProfileId',
-        'nvim',
-        '-HostVersion',
-        '1.0.0',
-        '-BundledModulesPath',
-        install_dir .. '/PowerShellEditorServices',
-        '-LogPath',
-        vim.fn.stdpath 'cache' .. '/powershell_es.log',
-        '-SessionDetailsPath',
-        vim.fn.stdpath 'cache' .. '/powershell_es.session.json',
-        '-FeatureFlags',
-        '@()',
-        '-LogLevel',
-        'Normal',
-      },
-      init_options = { enableProfileLoading = false },
-      filetypes = { 'ps1' },
-      on_attach = function(client, bufnr)
-        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-      end,
-      settings = { powershell = { codeFormatting = { Preset = 'OTBS' } } },
-    })
     vim.lsp.config('lua_ls', {
       settings = {
         Lua = {

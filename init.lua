@@ -405,7 +405,10 @@ require('lazy').setup({
         vim.env.PATH = 'C:/msys64/usr/bin;' .. vim.env.PATH
       end
 
-      require('nvim-treesitter').install(parsers, { max_jobs = 2 })
+      -- Check for missing parsers after the first buffer is on screen.
+      vim.defer_fn(function()
+        require('nvim-treesitter').install(parsers, { max_jobs = 2 })
+      end, 1000)
 
       vim.api.nvim_create_autocmd('FileType', {
         desc = 'Enable Treesitter highlighting for installed languages',
