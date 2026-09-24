@@ -393,7 +393,7 @@ require('lazy').setup({
     lazy = false,
     build = ':TSUpdate',
     config = function()
-      local parsers = { 'bash', 'c', 'css', 'dockerfile', 'go', 'html', 'json', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'toml', 'vim', 'vimdoc' }
+      local parsers = { 'bash', 'c', 'css', 'dockerfile', 'go', 'html', 'json', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'toml', 'vim', 'vimdoc', 'yaml' }
       local enabled = {}
       for _, parser in ipairs(parsers) do
         enabled[parser] = true
