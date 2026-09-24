@@ -342,6 +342,11 @@ require('lazy').setup({
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
       vim.cmd.colorscheme 'catppuccin-mocha'
 
+      vim.keymap.set('n', '<leader>ct', function()
+        local next_flavour = vim.g.colors_name == 'catppuccin-latte' and 'mocha' or 'latte'
+        vim.cmd.colorscheme('catppuccin-' .. next_flavour)
+      end, { desc = 'Toggle Catppuccin [T]heme' })
+
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
     end,
