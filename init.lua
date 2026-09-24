@@ -38,6 +38,19 @@ vim.opt.breakindent = true
 -- Save undo history
 vim.opt.undofile = true
 
+-- Undotree shells out to `diff`, which Git for Windows installs outside PATH.
+if vim.fn.executable 'diff' == 0 then
+  local git = vim.fn.exepath 'git'
+  if git ~= '' then
+    local git_root = vim.fs.dirname(vim.fs.dirname(git))
+    local diff_dir = git_root .. '/usr/bin'
+    local diff_exe = diff_dir .. '/diff.exe'
+    if vim.fn.executable(diff_exe) == 1 then
+      vim.env.PATH = diff_dir .. (vim.fn.has 'win32' == 1 and ';' or ':') .. vim.env.PATH
+    end
+  end
+end
+
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
