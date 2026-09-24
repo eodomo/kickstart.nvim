@@ -404,6 +404,8 @@ require('lazy').setup({
       end
       local installing = {}
 
+      vim.treesitter.language.register('powershell', 'ps1')
+
       -- Windows curl fails TLS handshakes with GitHub on this machine.
       local msys_curl = 'C:/msys64/usr/bin/curl.exe'
       if vim.fn.has 'win32' == 1 and vim.fn.executable(msys_curl) == 1 then
