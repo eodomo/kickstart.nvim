@@ -36,6 +36,9 @@ vim.opt.scrolloff = 10
 vim.opt.colorcolumn = '80'
 vim.opt.winborder = 'rounded'
 
+-- What sessions restore. Leaves out empty/plugin windows ('blank') and terminals, which come back broken.
+vim.opt.sessionoptions = { 'buffers', 'curdir', 'folds', 'help', 'tabpages', 'winsize' }
+
 -- Undotree shells out to `diff`, which Git for Windows installs outside PATH.
 if vim.fn.executable 'diff' == 0 then
   local git = vim.fn.exepath 'git'

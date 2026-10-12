@@ -7,6 +7,7 @@ return { -- Shows pending keybinds
       { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
       { '<leader>l', group = '[L]aunch' },
       { '<leader>s', group = '[S]earch' },
+      { '<leader>S', group = '[S]ession' },
       { '<leader>t', group = '[T]oggle' },
       { '<leader>x', group = 'Trouble' },
     },
