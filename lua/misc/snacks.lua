@@ -4,17 +4,18 @@ return {
   lazy = false,
   ---@type snacks.Config
   opts = {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
     bigfile = { enabled = false },
+    dashboard = { enabled = true },
+    explorer = { enabled = true },
     git = { enabled = false },
-    dashboard = { enabled = false },
-    explorer = {
+    -- Only highlight the current block's indent guide, not every level
+    indent = {
       enabled = true,
+      indent = { enabled = false },
+      scope = { enabled = true },
     },
-    indent = { enabled = false },
-    input = { enabled = false },
+    input = { enabled = true },
+    notifier = { enabled = true },
     picker = {
       enabled = true,
       sources = {
@@ -29,10 +30,9 @@ return {
         },
       },
     },
-    notifier = { enabled = false },
     quickfile = { enabled = true },
     scope = { enabled = false },
-    scroll = { enabled = false },
+    scroll = { enabled = true },
     statuscolumn = { enabled = false },
     words = { enabled = false },
   },
@@ -45,7 +45,6 @@ return {
       end,
       desc = 'File Explorer',
     },
-    -- Picker
     -- Search
     {
       '<leader>sf',
@@ -83,6 +82,13 @@ return {
       desc = '[S]earch by [G]rep',
     },
     {
+      '<leader>sn',
+      function()
+        Snacks.picker.notifications()
+      end,
+      desc = '[S]earch [N]otifications',
+    },
+    {
       '<leader>sr',
       function()
         Snacks.picker.resume()
@@ -96,8 +102,7 @@ return {
       end,
       desc = '[S]earch [R]ecent',
     },
-
-    -- Search
+    -- LSP
     {
       'gd',
       function()
@@ -113,4 +118,59 @@ return {
       desc = '[G]oto [D]eclaration',
     },
   },
+  init = function()
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'VeryLazy',
+      callback = function()
+        -- Toggles show their on/off state in which-key under <leader>t
+        Snacks.toggle
+          .new({
+            id = 'light_theme',
+            name = 'Light theme',
+            get = function()
+              return vim.g.colors_name == 'catppuccin-latte'
+            end,
+            set = function(state)
+              vim.cmd.colorscheme(state and 'catppuccin-latte' or 'catppuccin-mocha')
+            end,
+          })
+          :map '<leader>tt'
+
+        Snacks.toggle
+          .new({
+            id = 'relative_number',
+            name = 'Relative numbers',
+            get = function()
+              return vim.g.relative_number
+            end,
+            set = function(state)
+              vim.g.relative_number = state
+              if vim.wo.number then
+                vim.wo.relativenumber = state
+              end
+            end,
+          })
+          :map '<leader>tr'
+
+        Snacks.toggle.zen():map '<leader>tz'
+        Snacks.toggle.dim():map '<leader>td'
+
+        -- Presenter mode: absolute line numbers + zen (centered window, dims everything but the current block)
+        Snacks.toggle
+          .new({
+            id = 'presenter',
+            name = 'Presenter mode',
+            get = function()
+              return vim.g.presenter_mode == true
+            end,
+            set = function(state)
+              vim.g.presenter_mode = state
+              Snacks.toggle.get('relative_number'):set(not state)
+              Snacks.toggle.get('zen'):set(state)
+            end,
+          })
+          :map '<leader>tp'
+      end,
+    })
+  end,
 }
