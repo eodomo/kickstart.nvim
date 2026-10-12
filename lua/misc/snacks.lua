@@ -8,12 +8,7 @@ return {
     dashboard = { enabled = true },
     explorer = { enabled = true },
     git = { enabled = false },
-    -- Only highlight the current block's indent guide, not every level
-    indent = {
-      enabled = true,
-      indent = { enabled = false },
-      scope = { enabled = true },
-    },
+    indent = { enabled = false },
     input = { enabled = true },
     notifier = { enabled = true },
     picker = {
