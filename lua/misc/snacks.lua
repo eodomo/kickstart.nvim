@@ -30,6 +30,8 @@ return {
     scroll = { enabled = true },
     statuscolumn = { enabled = false },
     words = { enabled = false },
+    -- Zen without dimming; this table replaces snacks' defaults rather than merging
+    zen = { toggles = { dim = false, git_signs = false, mini_diff_signs = false } },
   },
   keys = {
     -- Explorer
@@ -148,9 +150,8 @@ return {
           :map '<leader>tr'
 
         Snacks.toggle.zen():map '<leader>tz'
-        Snacks.toggle.dim():map '<leader>td'
 
-        -- Presenter mode: absolute line numbers + zen (centered window, dims everything but the current block)
+        -- Presenter mode: absolute line numbers + zen (centered window)
         Snacks.toggle
           .new({
             id = 'presenter',
