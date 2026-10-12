@@ -411,7 +411,9 @@ require('lazy').setup({
     lazy = false,
     build = ':TSUpdate',
     config = function()
-      local parsers = { 'bash', 'c', 'css', 'dockerfile', 'go', 'html', 'ini', 'javascript', 'json', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python', 'toml', 'tsx', 'typescript', 'vim', 'vimdoc', 'xml', 'yaml' }
+      vim.filetype.add({ extension = { j2 = 'jinja', jinja2 = 'jinja' } })
+
+      local parsers = { 'bash', 'c', 'css', 'dockerfile', 'go', 'html', 'ini', 'javascript', 'jinja', 'json', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python', 'toml', 'tsx', 'typescript', 'vim', 'vimdoc', 'xml', 'yaml' }
       local enabled = {}
       for _, parser in ipairs(parsers) do
         enabled[parser] = true
