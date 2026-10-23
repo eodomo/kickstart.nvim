@@ -66,24 +66,16 @@ return {
       },
     })
 
-    local godot_config = function()
-      if vim.fn.has 'win32' then
-        return {
-          cmd = { 'ncat', '127.0.0.1', '6005' },
-          name = 'godot',
-        }
-      else
-        return {
-          cmd = vim.lsp.rpc.connect('127.0.0.1', 6005),
-          name = 'godot',
-        }
-      end
-    end
-    vim.lsp.config('gdscript', godot_config())
+    -- Godot's built-in LSP; only available while the Godot editor is running.
+    vim.lsp.config('gdscript', {
+      name = 'godot',
+      cmd = vim.fn.has 'win32' == 1 and { 'ncat', '127.0.0.1', '6005' } or vim.lsp.rpc.connect('127.0.0.1', 6005),
+      filetypes = { 'gdscript', 'gd' },
+      root_markers = { 'project.godot', '.git' },
+    })
 
     -- Enable all configured servers
     vim.lsp.enable(servers)
-    -- TODO: Fix godot LSP integration
-    -- vim.lsp.enable 'gdscript'
+    vim.lsp.enable 'gdscript'
   end,
 }
