@@ -67,7 +67,7 @@ return {
     })
 
     local godot_config = function()
-      if vim.fn.has 'win32' then
+      if vim.fn.has 'win32' == 1 then
         return {
           cmd = { 'ncat', '127.0.0.1', '6005' },
           name = 'godot',
@@ -83,7 +83,6 @@ return {
 
     -- Enable all configured servers
     vim.lsp.enable(servers)
-    -- TODO: Fix godot LSP integration
-    -- vim.lsp.enable 'gdscript'
+    vim.lsp.enable 'gdscript'
   end,
 }
