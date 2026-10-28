@@ -1,5 +1,6 @@
 return { -- Git change markers in the sign column
   'lewis6991/gitsigns.nvim',
+  event = { 'BufReadPre', 'BufNewFile' }, -- `keys` alone would lazy-load gitsigns only on ]c/[c
   keys = {
     { ']c', function() require('gitsigns').nav_hunk('next') end, desc = 'Git: Next change' },
     { '[c', function() require('gitsigns').nav_hunk('prev') end, desc = 'Git: Previous change' },
