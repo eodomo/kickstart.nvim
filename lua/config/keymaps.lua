@@ -6,6 +6,11 @@ local map = vim.keymap.set
 -- Clear search highlight
 map('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- Insert mode: delete the previous word
+map('i', '<C-BS>', '<C-w>', { desc = 'Delete word backwards' })
+-- Some terminals send Ctrl+Backspace as Ctrl+H instead.
+map('i', '<C-h>', '<C-w>', { desc = 'Delete word backwards' })
+
 -- Buffers
 map('n', '<leader><Tab>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
 map('n', '<leader><S-Tab>', '<cmd>bprev<CR>', { desc = 'Previous buffer' })
