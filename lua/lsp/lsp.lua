@@ -1,6 +1,6 @@
 return {
   'neovim/nvim-lspconfig',
-  event = 'VeryLazy',
+  event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     'mason-org/mason.nvim',
     'mason-org/mason-lspconfig.nvim',
@@ -49,6 +49,18 @@ return {
     vim.lsp.config('clangd', {})
     vim.lsp.config('rust_analyzer', {})
     vim.lsp.config('gopls', {})
+    local roslyn_exe = vim.fn.glob(
+      vim.fn.expand(
+        '~/.dotnet/tools/.store/roslyn-language-server/*/roslyn-language-server.win-x64/*/tools/net10.0/win-x64/roslyn-language-server.exe'
+      ),
+      false,
+      true
+    )[1]
+    vim.lsp.config('roslyn_ls', {
+      cmd = { roslyn_exe or 'roslyn-language-server', '--stdio', '--autoLoadProjects' },
+      -- Roslyn requires --stdio for launch and does not support the upstream --version probe.
+      before_init = function() end,
+    })
     if vim.tbl_contains(servers, 'pyright') then
       vim.lsp.config('pyright', {})
     end
@@ -77,5 +89,6 @@ return {
     -- Enable all configured servers
     vim.lsp.enable(servers)
     vim.lsp.enable 'gdscript'
+    vim.lsp.enable 'roslyn_ls'
   end,
 }

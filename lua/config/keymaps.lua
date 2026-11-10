@@ -24,6 +24,13 @@ map('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 -- Diagnostics
 map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+map('n', 'gi', function()
+  if #vim.lsp.get_clients { bufnr = 0 } == 0 then
+    vim.notify('No LSP client attached to this buffer', vim.log.levels.INFO)
+    return
+  end
+  vim.lsp.buf.implementation()
+end, { desc = 'LSP: Go to implementation', silent = true })
 
 -- Terminal: <Esc><Esc> instead of <C-\><C-n>
 map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })

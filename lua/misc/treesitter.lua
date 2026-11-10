@@ -9,6 +9,7 @@ return { -- Highlight, edit, and navigate code
     local parsers = {
       'bash',
       'c',
+      'c_sharp',
       'css',
       'dockerfile',
       'go',
@@ -44,8 +45,14 @@ return { -- Highlight, edit, and navigate code
 
     -- Windows curl fails TLS handshakes with GitHub on this machine.
     local msys_curl = 'C:/msys64/usr/bin/curl.exe'
-    if vim.fn.has 'win32' == 1 and vim.fn.executable(msys_curl) == 1 then
-      vim.env.PATH = 'C:/msys64/usr/bin;' .. vim.env.PATH
+    local mingw_gcc = 'C:/msys64/ucrt64/bin/gcc.exe'
+    if vim.fn.has 'win32' == 1 then
+      if vim.fn.executable(msys_curl) == 1 then
+        vim.env.PATH = 'C:/msys64/usr/bin;' .. vim.env.PATH
+      end
+      if vim.fn.executable(mingw_gcc) == 1 then
+        vim.env.PATH = 'C:/msys64/ucrt64/bin;' .. vim.env.PATH
+      end
     end
 
     -- Check for missing parsers after the first buffer is on screen.
